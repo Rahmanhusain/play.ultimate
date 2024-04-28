@@ -110,6 +110,7 @@ get(rootRef).then((snapshot) => {
         const name = childData.name;
         const phone = childData.phone;
         sno+=1;
+        document.getElementById('count').innerHTML = sno;
         // Create a new row for each node
         const newRow = document.createElement('tr');
 
