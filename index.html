@@ -3,70 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTB4CEC RUBARU</title>
+    <title>Play.Ultimate</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <div id="tablediv" class="hide">
     <header>
         <div style="display: flex;">
-        <img src="images/gtb4cec logo.png" alt=" gtb4cec logo" id="gtblogo">
+        <img src="images/pngwing.com.png" alt=" gtb4cec logo" id="gtblogo">
         <div id="navtitle">
             <div id="inn">
-            <h3>GTB4CEC</h3>
-            <p>GTB4CEC-Events & Activity Portal</p>
+            <h2>Play.ultimate</h2>
         </div>
         </div>
     </div>
-        <div id="Userlogin"><i class="fa-regular fa-user"></i></div>
+        <div id="Userlogin" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></i></div>
     </header>
     <footer>
         <p><i class="fa-regular fa-copyright"></i> copyright developed by Rahman Husain</p>
     </footer>
     <div id="datadiv">
         <div id="totalandQr">
-            <h3>total Registerted Students : 350</h3>
-            <div id="QRscanner">
-                <i class="fa-solid fa-qrcode"></i>
-                <p>Verify</p>
-            </div>
+            <h3>Total Registerted User : <span id="count">350</span></h3>
         </div>
-        <div id="filterandsearch">
-            <div id="searchdiv">
-                <input type="search" id="search" name="search" placeholder="Enter Registeration ID">
-                <button id="search" onclick="addRow()">Search</button>
-            </div>
-            <div id="filterdiv">
-                <i class="fa-solid fa-filter"></i>
-            </div>
-
-        </div>
+        
         <div class="tablediv">
             <div id="tbouter">
             <table id="myTable">
                 <thead>
                   <tr class="trow">
                       <th>S.no</th>
-                      <th>Reg. No.</th>
                       <th>Name</th>
-                      <th>Status</th>
-                      <th>Certficate</th>
+                      <th>Email</th>
+                      <th>Phone no.</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr class="trow">
-                      <td>1</td>
-                      <td>20251</td>
-                      <td>Rahman Husain</td>
-                      <td><button class="Registered">Registerted</button></td>
-                      <td><button class="Certificate">See Certificate</button></td>
-                  </tr>
+                <tbody id="tablebody">
+                  
                 </tbody>
               </table>
             </div>
         </div>
     </div>
+</div>
+    <div id="Login">
+        <div id="back"></div>
+        <h2 style="margin: 10px; z-index: 2;">Welcome to Play.Ultimate!</h2>
+         <div class="container">
+        
+        <form id="signup-form" class="hide">
+            <h1>Sign Up</h1>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="hobby">Hobby:</label>
+                <input type="text" id="hobby" name="hobby" required>
+            </div>
+            <div class="form-group" style="position: relative;">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <i id="signupeye" class="fa-solid fa-eye"></i>
+            </div>
+            <div class="form-group" style="position: relative;">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                <i id="signupeyeconfirm" class="fa-solid fa-eye"></i>
+            </div>
+            <button type="submit" class="submit">Sign Up</button>
+        </form>
+       
+        <form id="login-form">
+            <h1>Login</h1>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="lemail" name="email" required>
+            </div>
+            <div class="form-group" style="position: relative;">
+                <label for="password">Password:</label>
+                <input type="password" id="lpassword" name="password" required>
+                <i id="logineye" class="fa-solid fa-eye"></i>
+            </div>
+            <button type="submit" class="submit">Sign Up</button>
+        </form>
+        <p id="logsignlink">Don't have an account? <a href="" id="toggleLink" onclick="change(event)">Sign Up</a></p>
+    </div>
+    </div>
     <script src="script.js"></script>
+    <script type="module" src="firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
