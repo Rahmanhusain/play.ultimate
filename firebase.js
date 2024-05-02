@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
-import { getDatabase, ref, child, get , set} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+import { getDatabase, ref, child, get , set , push } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -8,25 +8,26 @@ import { getDatabase, ref, child, get , set} from "https://www.gstatic.com/fireb
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
  
-function signupform(event){
-    
-event.preventDefault();
-const signupForm = document.getElementById('signup-form');
+function signupform(event) {
+  event.preventDefault();
+  const signupForm = document.getElementById('signup-form');
 
-// Get input field values
-const email = signupForm.querySelector('#email').value;
-const name = signupForm.querySelector('#name').value;
-const phone = signupForm.querySelector('#phone').value;
-const hobby = signupForm.querySelector('#hobby').value;
-const password = signupForm.querySelector('#password').value;
-const passwordcon = signupForm.querySelector('#confirm-password').value;
-if (password !== passwordcon) {
-    window.alert("Passwords do not match!");
-    signupForm.querySelector('#password').value = ''; // Clear the password fields
-    signupForm.querySelector('#confirm-password').value = '';
-    return; // Return from the function if passwords don't match
-}
-const firebaseConfig = {
+  // Get input field values
+  const email = signupForm.querySelector('#email').value;
+  const name = signupForm.querySelector('#name').value;
+  const phone = signupForm.querySelector('#phone').value;
+  const hobby = signupForm.querySelector('#hobby').value;
+  const password = signupForm.querySelector('#password').value;
+  const passwordcon = signupForm.querySelector('#confirm-password').value;
+
+  if (password !== passwordcon) {
+      window.alert("Passwords do not match!");
+      signupForm.querySelector('#password').value = ''; // Clear the password fields
+      signupForm.querySelector('#confirm-password').value = '';
+      return; // Return from the function if passwords don't match
+  }
+
+  const firebaseConfig = {
     apiKey: "AIzaSyC4M83aQzr5sRmeHka8o0qM3fmuyF7Q0Dc",
     authDomain: "play-ultimate.firebaseapp.com",
     databaseURL: "https://play-ultimate-default-rtdb.firebaseio.com",
@@ -35,41 +36,61 @@ const firebaseConfig = {
     messagingSenderId: "752307106882",
     appId: "1:752307106882:web:2de01861e1c0bd63a3a9db",
     measurementId: "G-L2GX82PKW1"
-    };
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const database = getDatabase(app);
-    
-    // Reference to the location where you want to store the data
-    const dataRef = ref(database, name);
-    
-    
-    // Reference to the location where you want to store the data
-    // Example data to store
-    const newData = {
-    email: email,
-    name: name,
-    phone: phone,
-    hobby: hobby,
-    password: password
-    };
-    
-    // Store the data in the database
-    set(dataRef, newData)
-    .then(() => {
-    console.log('Data stored successfully!');
-    window.alert("Data stored successfully! ")
-    })
-    .catch((error) => {
-    console.error('Error storing data: ', error);
-    window.alert("Error storing data: ")
-    });
-    document.getElementById("signup-form").reset();
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const database = getDatabase(app);
+
+  // Reference to the location where users' data is stored
+  const usersRef = ref(database, '/');
+
+  // Check if email already exists
+  get(usersRef).then((snapshot) => {
+    let userExists = false;
+    if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            if (userData.email === email) {
+                userExists = true;
+                return; // Exit the loop if user already exists
+            }
+        });
+    }
+
+    if (userExists) {
+        window.alert("User already exists!");
+        return; // Exit the function if user already exists
+    }
+
+
+      // If email does not exist, proceed to store the data
+      const newData = {
+          email: email,
+          name: name,
+          phone: phone,
+          hobby: hobby,
+          password: password
+      };
+
+      // Store the data in the database
+      push(usersRef, newData)
+          .then(() => {
+              console.log('Data stored successfully!');
+              window.alert("Data stored successfully! ")
+          })
+          .catch((error) => {
+              console.error('Error storing data: ', error);
+              window.alert("Error storing data: ")
+          });
+  });
+  signupForm.reset();
 }
-    const signupForm = document.getElementById('signup-form');
-    signupForm.addEventListener('submit', signupform);
+const signupForm = document.getElementById('signup-form');
+signupForm.addEventListener('submit', signupform);
+
     
-    
+
 function loaddata(){
     var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
     const rowCount = table.rows.length;
